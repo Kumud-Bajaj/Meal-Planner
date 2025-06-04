@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_RECIPES_API: http://localhost:4000/api/recipes
+        REACT_APP_MEALPLAN_API: http://localhost:5000/api/mealplan
+    ports:
+      - "3000:80"
+    depends_on:
+      - recipes
+      - mealplan
+
+  recipes:
+    build: ./recipes-service
+    ports:
+      - "4000:4000"
+    environment:
+      - SPOONACULAR_API_KEY=4f051d0291e3415293db63a1f99f28a9
+
+  mealplan:
+    build: ./mealplan-service
+    ports:
+      - "5000:5000"
+    environment:
+      - SPOONACULAR_API_KEY=4f051d0291e3415293db63a1f99f28a9
